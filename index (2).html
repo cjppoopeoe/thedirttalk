@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dirt Talk — farming · ag politics · hot takes</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#FF2D9B;--pink-light:#FFB3DD;--pink-pale:#FDDAED;
+  --brown:#2E1A14;--brown-mid:#4A2A1F;--brown-light:#7A4A35;
+  --cream:#FBF5F0;--white:#FFFFFF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--brown);overflow-x:hidden}
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+nav{position:sticky;top:0;z-index:200;background:var(--brown);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:58px}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--pink);text-decoration:none;letter-spacing:-0.01em;cursor:pointer;border:none;background:none}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a,.nav-links button{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink-light);text-decoration:none;background:none;border:none;cursor:pointer;transition:color 0.2s}
+.nav-links a:hover,.nav-links button:hover{color:var(--pink)}
+.nav-admin-btn{background:var(--pink)!important;color:var(--white)!important;padding:0.4rem 1rem!important;font-size:0.6rem!important}
+.nav-admin-btn:hover{background:var(--pink-light)!important;color:var(--brown)!important}
+.section-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;display:flex;align-items:center;gap:0.75rem}
+.section-label::before{content:'';width:2rem;height:1px;background:currentColor;display:inline-block}
+.big-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,4vw,4rem);line-height:0.95;letter-spacing:-0.02em}
+.btn{display:inline-flex;align-items:center;gap:0.6rem;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.9rem 1.8rem;cursor:pointer;border:none;text-decoration:none;transition:all 0.2s;width:fit-content;font-weight:700}
+.btn-pink{background:var(--pink);color:var(--white)}
+.btn-pink:hover{background:var(--pink-light);color:var(--brown)}
+.btn-brown{background:var(--brown);color:var(--pink-light)}
+.btn-brown:hover{background:var(--brown-mid)}
+.btn-outline{background:transparent;color:var(--pink);border:1.5px solid var(--pink)}
+.btn-outline:hover{background:var(--pink);color:var(--white)}
+.marquee{background:var(--pink);padding:0.8rem 0;overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:ticker 22s linear infinite}
+.m-item{font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:var(--white);padding:0 1.5rem}
+.m-sep{color:rgba(255,255,255,0.5);padding:0 0.25rem}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* HOME */
+.hero{background:var(--brown);display:grid;grid-template-columns:1fr 1fr;min-height:92vh}
+.hero-left{padding:5rem 4rem 5rem 5rem;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,45,155,0.2)}
+.hero-kicker{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--pink);margin-bottom:2rem;display:flex;align-items:center;gap:0.75rem}
+.hero-kicker::before{content:'';width:2rem;height:1px;background:var(--pink);display:inline-block}
+.hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(4.5rem,8vw,8rem);line-height:0.9;color:var(--white);letter-spacing:-0.02em;margin-bottom:2.5rem}
+.hero-h1 span{color:var(--pink);display:block}
+.hero-h1 em{font-style:italic;color:var(--pink-light)}
+.hero-desc{font-size:1.1rem;font-weight:300;color:var(--pink-light);line-height:1.85;max-width:36ch;margin-bottom:3rem}
+.hero-right{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px}
+.hero-watermark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}
+.hero-watermark span{font-family:'DM Serif Display',serif;font-size:22vw;color:rgba(255,45,155,0.07);line-height:1;white-space:nowrap;letter-spacing:-0.04em;user-select:none}
+.h-card{padding:2rem;display:flex;flex-direction:column;justify-content:flex-end;min-height:200px;position:relative;z-index:1;cursor:pointer;transition:filter 0.2s}
+.h-card:hover{filter:brightness(1.12)}
+.h-card-tag{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem}
+.h-card-title{font-family:'DM Serif Display',serif;font-size:1.5rem;line-height:1.05;letter-spacing:-0.01em}
+.home-blog{padding:6rem 5rem;background:var(--cream)}
+.home-blog-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem;padding-bottom:2rem;border-bottom:1.5px solid var(--brown)}
+.view-all-link{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--brown);text-decoration:none;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;cursor:pointer;background:none;border:none}
+.view-all-link:hover{gap:1rem;color:var(--pink)}
+.posts-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr;gap:2px}
+.post-card{background:var(--brown);display:flex;flex-direction:column;cursor:pointer;transition:transform 0.25s;overflow:hidden}
+.post-card:hover{transform:translateY(-5px)}
+.post-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+.post-card.featured .post-thumb{aspect-ratio:4/5}
+.post-thumb-label{font-family:'DM Serif Display',serif;font-size:3rem;line-height:0.88;letter-spacing:-0.03em;color:var(--white);text-align:center;padding:1rem}
+.post-card.featured .post-thumb-label{font-size:4.5rem}
+.post-body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.post-cat{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--pink);margin-bottom:0.7rem}
+.post-title-el{font-family:'DM Serif Display',serif;color:var(--white);line-height:1.1;letter-spacing:-0.01em;margin-bottom:0.75rem;font-size:1.2rem}
+.post-card.featured .post-title-el{font-size:1.85rem}
+.post-blurb{font-size:0.9rem;color:var(--pink-light);line-height:1.7;flex:1;font-weight:300;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.post-foot{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;color:rgba(255,179,221,0.45);margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,45,155,0.2)}
+.empty-state{grid-column:1/-1;text-align:center;padding:5rem 2rem;background:var(--brown)}
+.empty-state p{font-family:'DM Serif Display',serif;font-size:1.5rem;color:rgba(255,179,221,0.4);font-style:italic}
+.topics-section{background:var(--brown);padding:6rem 5rem}
+.lt-big{font-family:'DM Serif Display',serif;font-size:clamp(4rem,8vw,8rem);line-height:0.88;letter-spacing:-0.03em;color:var(--white)}
+.lt-big span{color:var(--pink)}
+.topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem}
+.topic-card{border:1.5px solid rgba(255,45,155,0.25);padding:2.5rem 2rem;transition:all 0.25s;cursor:pointer}
+.topic-card:hover{background:rgba(255,45,155,0.1);border-color:var(--pink)}
+.tc-num{font-family:'DM Serif Display',serif;font-style:italic;font-size:3rem;color:var(--pink);opacity:0.6;margin-bottom:1rem}
+.tc-title{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--white);line-height:1.1;margin-bottom:0.75rem}
+.tc-body{font-size:0.9rem;font-weight:300;color:var(--pink-light);line-height:1.75}
+.about-strip{display:grid;grid-template-columns:1fr 1fr;min-height:60vh}
+.about-visual{background:var(--pink);display:flex;align-items:center;justify-content:center;padding:4rem;position:relative;overflow:hidden}
+.about-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.about-bg span{font-family:'DM Serif Display',serif;font-size:18vw;color:rgba(255,255,255,0.12);line-height:1;white-space:nowrap;letter-spacing:-0.04em;user-select:none}
+.about-center{position:relative;z-index:1;text-align:center}
+.about-logo-big{font-family:'DM Serif Display',serif;font-size:clamp(3rem,5vw,4.5rem);color:var(--white);line-height:1;letter-spacing:-0.02em;margin-bottom:0.5rem}
+.about-logo-sub{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+.about-pill{display:inline-block;margin-top:2rem;background:var(--brown);color:var(--pink-light);font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.5rem}
+.about-text-side{background:var(--cream);padding:5rem;display:flex;flex-direction:column;justify-content:center}
+.about-body{font-size:1.05rem;font-weight:300;color:var(--brown-light);line-height:1.9;margin-bottom:1.25rem;max-width:42ch}
+.newsletter{background:var(--pink);padding:6rem 5rem}
+.nl-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.nl-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,4vw,4rem);color:var(--white);line-height:0.95;letter-spacing:-0.02em;margin-bottom:1rem}
+.nl-title em{font-style:italic;color:var(--brown)}
+.nl-sub{font-size:1rem;font-weight:300;color:rgba(255,255,255,0.8);line-height:1.8}
+.nl-form{display:flex;flex-direction:column;gap:0.75rem}
+.nl-form input{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.5);padding:1rem 1.25rem;font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--white);outline:none;transition:border-color 0.2s}
+.nl-form input::placeholder{color:rgba(255,255,255,0.55)}
+.nl-form input:focus{border-color:var(--white)}
+footer{background:var(--brown);padding:5rem 5rem 3rem}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4rem;padding-bottom:4rem;margin-bottom:3rem;border-bottom:1px solid rgba(255,45,155,0.2)}
+.footer-brand-name{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--pink);letter-spacing:-0.02em;margin-bottom:0.75rem;line-height:1}
+.footer-brand-tag{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink-light);margin-bottom:1.25rem}
+.footer-brand-desc{font-size:0.95rem;font-weight:300;color:rgba(255,179,221,0.55);line-height:1.8;max-width:32ch}
+.footer-col h4{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--pink);margin-bottom:1.5rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:0.65rem}
+.footer-col a{font-size:0.95rem;font-weight:300;color:rgba(255,179,221,0.55);text-decoration:none;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif}
+.footer-col a:hover{color:var(--pink)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:rgba(255,179,221,0.25)}
+.footer-ig a{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,179,221,0.35);text-decoration:none;transition:color 0.2s}
+.footer-ig a:hover{color:var(--pink)}
+
+/* BLOG PAGE */
+.blog-page-hero{background:var(--brown);padding:6rem 5rem 4rem}
+.blog-filter{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:2.5rem}
+.filter-btn{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.5rem 1.25rem;background:transparent;border:1px solid rgba(255,179,221,0.3);color:rgba(255,179,221,0.6);cursor:pointer;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{background:var(--pink);border-color:var(--pink);color:var(--white)}
+.blog-list-grid{padding:4rem 5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--cream)}
+
+/* ARTICLE PAGE */
+.article-hero{background:var(--brown);padding:5rem 5rem 4rem}
+.article-back{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink-light);display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:2.5rem;cursor:pointer;background:none;border:none;transition:gap 0.2s}
+.article-back:hover{gap:0.9rem;color:var(--pink)}
+.article-cat{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--pink);margin-bottom:1.25rem}
+.article-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,5vw,5rem);color:var(--white);line-height:0.95;letter-spacing:-0.02em;margin-bottom:1.5rem;max-width:20ch}
+.article-meta{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:rgba(255,179,221,0.5)}
+.article-body-wrap{max-width:720px;margin:0 auto;padding:5rem 2rem}
+.article-body-wrap h2{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--brown);margin:2.5rem 0 1rem}
+.article-body-wrap h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--brown);margin:2rem 0 0.75rem}
+.article-body-wrap p{font-size:1.15rem;font-weight:300;line-height:1.9;color:var(--brown-mid);margin-bottom:1.5rem}
+.article-body-wrap ul,.article-body-wrap ol{margin:0 0 1.5rem 1.5rem}
+.article-body-wrap li{font-size:1.1rem;font-weight:300;line-height:1.9;color:var(--brown-mid);margin-bottom:0.4rem}
+.article-body-wrap blockquote{border-left:3px solid var(--pink);padding:1rem 1.5rem;margin:2rem 0;background:var(--pink-pale)}
+.article-body-wrap blockquote p{color:var(--brown);font-style:italic;margin:0}
+.article-body-wrap strong{font-weight:500;color:var(--brown)}
+.article-body-wrap a{color:var(--pink)}
+.article-banner{width:100%;height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:3rem;position:relative;overflow:hidden}
+.article-banner-text{font-family:'DM Serif Display',serif;font-size:4rem;line-height:0.88;letter-spacing:-0.03em;text-align:center;padding:1rem}
+
+/* ADMIN LOGIN */
+.admin-login-wrap{min-height:100vh;background:var(--brown);display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{background:var(--brown-mid);padding:3rem;width:100%;max-width:420px;border:1px solid rgba(255,45,155,0.25)}
+.login-box h2{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--pink);margin-bottom:0.5rem}
+.login-box p{font-size:0.85rem;color:var(--pink-light);margin-bottom:2rem;font-weight:300}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--pink-light);margin-bottom:0.5rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,179,221,0.3);padding:0.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--white);outline:none;transition:border-color 0.2s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--pink)}
+.form-group select option{background:var(--brown);color:var(--white)}
+.field-error{background:rgba(255,45,155,0.15);border:1px solid rgba(255,45,155,0.4);color:var(--pink-light);font-size:0.85rem;padding:0.75rem 1rem;margin-bottom:1.25rem;display:none}
+.field-error.show{display:block}
+
+/* ADMIN DASHBOARD */
+.admin-wrap{min-height:100vh;background:#1a0e0a;display:grid;grid-template-columns:260px 1fr}
+.admin-sidebar{background:var(--brown);padding:2rem 0;display:flex;flex-direction:column;border-right:1px solid rgba(255,45,155,0.2);position:sticky;top:58px;height:calc(100vh - 58px)}
+.sidebar-logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--pink);padding:0 2rem 2rem;border-bottom:1px solid rgba(255,45,155,0.2);margin-bottom:1.5rem}
+.sidebar-logo span{display:block;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,179,221,0.5);margin-top:0.25rem}
+.sidebar-nav{flex:1}
+.sidebar-btn{width:100%;text-align:left;padding:0.85rem 2rem;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,179,221,0.55);background:none;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.75rem}
+.sidebar-btn::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.4;flex-shrink:0}
+.sidebar-btn:hover,.sidebar-btn.active{color:var(--pink);background:rgba(255,45,155,0.08)}
+.sidebar-btn.active::before{opacity:1}
+.sidebar-logout{padding:2rem;border-top:1px solid rgba(255,45,155,0.2);margin-top:auto}
+.admin-main{padding:3rem;overflow-y:auto}
+.admin-panel{display:none}
+.admin-panel.active{display:block}
+.admin-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,45,155,0.2)}
+.admin-header h2{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--white);margin-bottom:0.25rem}
+.admin-header p{font-size:0.85rem;color:rgba(255,179,221,0.5);font-weight:300}
+.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem}
+.stat-card{background:var(--brown-mid);border:1px solid rgba(255,45,155,0.2);padding:1.5rem}
+.stat-num{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--pink);line-height:1;margin-bottom:0.25rem}
+.stat-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,179,221,0.5)}
+.posts-table{width:100%;border-collapse:collapse}
+.posts-table th{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,179,221,0.45);padding:0.75rem 1rem;text-align:left;border-bottom:1px solid rgba(255,45,155,0.15)}
+.posts-table td{padding:1rem;border-bottom:1px solid rgba(255,45,155,0.08);vertical-align:middle}
+.posts-table tr:hover td{background:rgba(255,45,155,0.04)}
+.td-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--white)}
+.td-cat{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--pink);background:rgba(255,45,155,0.1);padding:0.25rem 0.6rem;display:inline-block}
+.td-date{font-family:'Space Mono',monospace;font-size:0.6rem;color:rgba(255,179,221,0.4)}
+.td-status{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.75rem;display:inline-block}
+.status-published{background:rgba(74,218,74,0.12);color:#6dde6d}
+.status-draft{background:rgba(255,179,50,0.12);color:#ffc444}
+.td-actions{display:flex;gap:0.5rem}
+.action-btn{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.75rem;cursor:pointer;border:1px solid;background:none;transition:all 0.2s}
+.action-edit{color:var(--pink-light);border-color:rgba(255,179,221,0.3)}
+.action-edit:hover{background:rgba(255,179,221,0.1)}
+.action-delete{color:#ff6b6b;border-color:rgba(255,107,107,0.3)}
+.action-delete:hover{background:rgba(255,107,107,0.1)}
+.action-view{color:rgba(255,179,221,0.5);border-color:rgba(255,179,221,0.15)}
+.action-view:hover{background:rgba(255,179,221,0.08);color:var(--pink-light)}
+.editor-grid{display:grid;grid-template-columns:1fr 300px;gap:2rem;align-items:start}
+.panel-box{background:var(--brown-mid);border:1px solid rgba(255,45,155,0.2);padding:1.5rem;margin-bottom:1rem}
+.panel-box h3{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--pink);margin-bottom:1.25rem}
+.rich-toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:0.5rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,179,221,0.2);border-bottom:none}
+.rich-toolbar button{font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(255,179,221,0.7);background:none;border:1px solid rgba(255,179,221,0.15);padding:0.3rem 0.6rem;cursor:pointer;transition:all 0.2s}
+.rich-toolbar button:hover{background:rgba(255,45,155,0.15);color:var(--pink);border-color:var(--pink)}
+.rich-editor{min-height:420px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,179,221,0.2);padding:1.25rem;color:var(--white);font-size:1rem;line-height:1.8;font-family:'DM Sans',sans-serif;outline:none;font-weight:300}
+.rich-editor:focus{border-color:rgba(255,45,155,0.5)}
+.rich-editor h2{font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--white);margin:1.5rem 0 0.75rem}
+.rich-editor h3{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--white);margin:1.25rem 0 0.5rem}
+.rich-editor blockquote{border-left:3px solid var(--pink);padding:0.75rem 1.25rem;margin:1.25rem 0;background:rgba(255,45,155,0.08)}
+.rich-editor a{color:var(--pink)}
+.rich-editor ul,.rich-editor ol{margin-left:1.5rem;margin-bottom:1rem}
+.rich-editor strong{color:var(--white);font-weight:500}
+.color-swatch{height:36px;cursor:pointer;transition:transform 0.15s}
+.color-swatch:hover{transform:scale(1.1)}
+.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.io-box{background:var(--brown-mid);border:1px solid rgba(255,45,155,0.2);padding:2rem}
+.io-box h3{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--white);margin-bottom:0.75rem}
+.io-box p{font-size:0.85rem;color:rgba(255,179,221,0.5);font-weight:300;line-height:1.7;margin-bottom:1.5rem}
+.success-toast{position:fixed;bottom:2rem;right:2rem;background:var(--pink);color:var(--white);font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:1rem 1.5rem;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s;pointer-events:none}
+.success-toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}.hero-right{display:none}.hero-left{padding:4rem 2rem}
+  .home-blog{padding:4rem 2rem}.posts-grid{grid-template-columns:1fr}
+  .topics-section{padding:4rem 2rem}.topics-grid{grid-template-columns:1fr}
+  .about-strip{grid-template-columns:1fr}.about-visual{min-height:50vw}.about-text-side{padding:4rem 2rem}
+  .newsletter{padding:4rem 2rem}.nl-inner{grid-template-columns:1fr;gap:2.5rem}
+  footer{padding:4rem 2rem 2rem}.footer-top{grid-template-columns:1fr;gap:2rem}
+  .blog-page-hero{padding:4rem 2rem 3rem}.blog-list-grid{padding:3rem 2rem;grid-template-columns:1fr}
+  .article-hero{padding:4rem 2rem 3rem}.article-body-wrap{padding:3rem 2rem}
+  .admin-wrap{grid-template-columns:1fr}.admin-sidebar{position:relative;height:auto;top:0}
+  .editor-grid{grid-template-columns:1fr}.stat-cards{grid-template-columns:1fr}
+  .io-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <button class="nav-logo" onclick="showPage('home')">Dirt Talk</button>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false">Home</a></li>
+    <li><a href="#" onclick="showPage('blog');return false">Blog</a></li>
+    <li><a href="#" onclick="goAbout();return false">About</a></li>
+    <li><a href="#" onclick="goNewsletter();return false">Subscribe</a></li>
+    <li><button class="nav-admin-btn" onclick="showPage('admin-login')">Admin ↗</button></li>
+  </ul>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-kicker">farming · ag politics · hot takes</div>
+      <h1 class="hero-h1">LET'S<br><span>TALK</span><em>DIRT.</em></h1>
+      <p class="hero-desc">Real talk on <strong>agriculture</strong> — the industry, the land, the politics, and the people behind your food. No fluff.</p>
+      <button class="btn btn-pink" onclick="showPage('blog')">Read the Blog →</button>
+    </div>
+    <div class="hero-right">
+      <div class="hero-watermark"><span>DIRT</span></div>
+      <div class="h-card" style="background:var(--pink)"><div class="h-card-tag" style="color:rgba(255,255,255,0.6)">Ag Politics</div><div class="h-card-title" style="color:var(--white)">Let's Talk Subsidies</div></div>
+      <div class="h-card" style="background:var(--brown-mid)"><div class="h-card-tag" style="color:var(--pink-light)">Field Notes</div><div class="h-card-title" style="color:var(--pink-light)">Animals Are Agriculture</div></div>
+      <div class="h-card" style="background:var(--pink-pale)"><div class="h-card-tag" style="color:var(--brown-light)">Hot Take</div><div class="h-card-title" style="color:var(--brown)">Your Food Doesn't Grow Itself</div></div>
+      <div class="h-card" style="background:var(--pink)"><div class="h-card-tag" style="color:rgba(255,255,255,0.6)">Let's Talk</div><div class="h-card-title" style="color:var(--white)">Let's Talk Dirt</div></div>
+    </div>
+  </section>
+  <div class="marquee"><div class="marquee-track" id="home-marquee"></div></div>
+  <section class="home-blog">
+    <div class="home-blog-header">
+      <div><div class="section-label" style="color:var(--pink)">From the Blog</div><h2 class="big-title" style="color:var(--brown);margin-top:0.75rem">Latest Posts</h2></div>
+      <button class="view-all-link" onclick="showPage('blog')">All Posts →</button>
+    </div>
+    <div class="posts-grid" id="home-posts-grid"><div class="empty-state"><p>No posts yet — head to the admin to write your first article.</p></div></div>
+  </section>
+  <section class="topics-section" id="topics">
+    <div><div class="section-label" style="color:var(--pink-light)">Explore</div><div class="lt-big" style="margin-top:0.75rem">LET'S<br><span>TALK</span></div></div>
+    <div class="topics-grid">
+      <div class="topic-card" onclick="filterAndGo('Farming & the Land')"><div class="tc-num">01</div><div class="tc-title">Farming & the Land</div><p class="tc-body">What it actually takes to grow food. Soil health, crop cycles, water, weather — the unsponsored truth from people doing the work.</p></div>
+      <div class="topic-card" onclick="filterAndGo('Ag Politics & Policy')"><div class="tc-num">02</div><div class="tc-title">Ag Politics & Policy</div><p class="tc-body">Subsidies, trade deals, land rights, and the legislation that shapes American agriculture. We break it down, no filter.</p></div>
+      <div class="topic-card" onclick="filterAndGo('Animals Are Agriculture')"><div class="tc-num">03</div><div class="tc-title">Animals Are Agriculture</div><p class="tc-body">Livestock, showing, animal welfare, and why the animal side of ag deserves more than a footnote in the conversation.</p></div>
+    </div>
+  </section>
+  <section class="about-strip" id="about">
+    <div class="about-visual"><div class="about-bg"><span>DIRT</span></div><div class="about-center"><div class="about-logo-big">DIRT<br>TALK</div><div class="about-logo-sub">farming · ag politics · hot takes</div><div class="about-pill">East Texas · Since 2022</div></div></div>
+    <div class="about-text-side">
+      <div class="section-label" style="color:var(--pink)">The Story</div>
+      <h2 class="big-title" style="margin-top:0.75rem;margin-bottom:1.75rem">Real talk.<br><em style="font-style:italic;color:var(--pink)">No filter.</em></h2>
+      <p class="about-body">The Dirt Talk exists because agriculture deserves honest conversation — not just feel-good harvest photos and sponsored content. From East Texas fields to the halls of Washington, we're talking about what actually matters.</p>
+      <p class="about-body">Farming. Ag politics. Hot takes. This is where it all lives.</p>
+      <button class="btn btn-pink" style="margin-top:1rem" onclick="showPage('blog')">Read the Blog →</button>
+    </div>
+  </section>
+  <section class="newsletter" id="newsletter">
+    <div class="nl-inner">
+      <div><div class="section-label" style="color:var(--brown);margin-bottom:1.25rem">Stay in the loop</div><h2 class="nl-title">Get the dirt<br><em>delivered.</em></h2><p class="nl-sub" style="margin-top:1rem">New posts, hot takes, and ag conversations — straight to your inbox. No spam, just signal.</p></div>
+      <div class="nl-form"><input type="text" placeholder="Your name"><input type="email" placeholder="Email address"><button class="btn btn-brown" type="button">Subscribe →</button></div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-top">
+      <div><div class="footer-brand-name">Dirt Talk</div><div class="footer-brand-tag">farming · ag politics · hot takes</div><p class="footer-brand-desc">Honest, unfiltered agriculture writing. Based in East Texas, talking to everyone who cares about where food comes from.</p></div>
+      <div class="footer-col"><h4>Navigate</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('blog')">Blog</a></li><li><a onclick="goAbout()">About</a></li><li><a onclick="goNewsletter()">Subscribe</a></li></ul></div>
+      <div class="footer-col"><h4>Topics</h4><ul><li><a onclick="filterAndGo('Farming & the Land')">Farming & the Land</a></li><li><a onclick="filterAndGo('Ag Politics & Policy')">Ag Politics & Policy</a></li><li><a onclick="filterAndGo('Animals Are Agriculture')">Animals Are Agriculture</a></li><li><a onclick="filterAndGo('Food Systems')">Food Systems</a></li><li><a onclick="filterAndGo('Hot Takes')">Hot Takes</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2026 The Dirt Talk. All rights reserved.</div><div class="footer-ig"><a href="https://www.instagram.com/the_dirt.talk/" target="_blank">Instagram ↗</a></div></div>
+  </footer>
+</div>
+
+<!-- ══ BLOG LIST ══ -->
+<div id="page-blog" class="page">
+  <section class="blog-page-hero">
+    <div class="section-label" style="color:var(--pink)">All Articles</div>
+    <h1 style="font-family:'DM Serif Display',serif;font-size:clamp(3.5rem,7vw,7rem);color:var(--white);line-height:0.9;letter-spacing:-0.02em;margin-top:1rem">LET'S<br><em style="color:var(--pink);font-style:italic">TALK.</em></h1>
+    <div class="blog-filter" id="blog-filter-btns">
+      <button class="filter-btn active" onclick="renderBlog('All')">All</button>
+      <button class="filter-btn" onclick="renderBlog('Farming & the Land')">Farming & the Land</button>
+      <button class="filter-btn" onclick="renderBlog('Ag Politics & Policy')">Ag Politics & Policy</button>
+      <button class="filter-btn" onclick="renderBlog('Animals Are Agriculture')">Animals Are Agriculture</button>
+      <button class="filter-btn" onclick="renderBlog('Food Systems')">Food Systems</button>
+      <button class="filter-btn" onclick="renderBlog('Hot Takes')">Hot Takes</button>
+    </div>
+  </section>
+  <div class="blog-list-grid" id="blog-list-grid"><div class="empty-state"><p>No posts yet — check back soon!</p></div></div>
+  <footer style="background:var(--brown);padding:2rem 5rem"><div class="footer-bottom"><div class="footer-copy">© 2026 The Dirt Talk</div><div class="footer-ig"><a href="#" onclick="showPage('home');return false">← Back to Home</a></div></div></footer>
+</div>
+
+<!-- ══ SINGLE ARTICLE ══ -->
+<div id="page-article" class="page">
+  <section class="article-hero">
+    <button class="article-back" onclick="showPage('blog')">← Back to Blog</button>
+    <div class="article-cat" id="article-cat-el"></div>
+    <h1 class="article-title" id="article-title-el"></h1>
+    <div class="article-meta" id="article-meta-el"></div>
+  </section>
+  <div class="article-body-wrap">
+    <div class="article-banner" id="article-banner"></div>
+    <div id="article-body-el"></div>
+  </div>
+  <footer style="background:var(--brown);padding:2rem 5rem"><div class="footer-bottom"><div class="footer-copy">© 2026 The Dirt Talk</div><div class="footer-ig"><a href="#" onclick="showPage('blog');return false">← All Posts</a></div></div></footer>
+</div>
+
+<!-- ══ ADMIN LOGIN ══ -->
+<div id="page-admin-login" class="page">
+  <div class="admin-login-wrap">
+    <div class="login-box">
+      <h2>Admin</h2>
+      <p>Dirt Talk dashboard — authorized access only.</p>
+      <div class="field-error" id="login-error">Incorrect password. Try again.</div>
+      <div class="form-group"><label>Password</label><input type="password" id="login-pw" placeholder="Enter your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-pink" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="doLogin()">Sign In →</button>
+      <p style="margin-top:1.5rem;font-size:0.75rem;color:rgba(255,179,221,0.35);font-family:'Space Mono',monospace">Default password: <strong style="color:rgba(255,179,221,0.6)">dirttalk2026</strong><br>Change it in Settings after first login.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN DASHBOARD ══ -->
+<div id="page-admin" class="page">
+  <div class="admin-wrap">
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">Dirt Talk<span>Admin Dashboard</span></div>
+      <nav class="sidebar-nav">
+        <button class="sidebar-btn active" onclick="adminPanel('overview')">Overview</button>
+        <button class="sidebar-btn" onclick="adminPanel('new-post');clearEditor()">New Post</button>
+        <button class="sidebar-btn" onclick="adminPanel('all-posts')">All Posts</button>
+        <button class="sidebar-btn" onclick="adminPanel('data')">Export / Import</button>
+        <button class="sidebar-btn" onclick="adminPanel('settings')">Settings</button>
+      </nav>
+      <div class="sidebar-logout"><button class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.6rem" onclick="doLogout()">Sign Out</button></div>
+    </aside>
+    <main class="admin-main">
+
+      <!-- Overview -->
+      <div class="admin-panel active" id="panel-overview">
+        <div class="admin-header"><h2>Overview</h2><p>Welcome back. Here's how Dirt Talk is doing.</p></div>
+        <div class="stat-cards">
+          <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total Posts</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-published">0</div><div class="stat-label">Published</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-drafts">0</div><div class="stat-label">Drafts</div></div>
+        </div>
+        <div style="display:flex;gap:0.75rem;margin-bottom:1.5rem">
+          <button class="btn btn-pink" onclick="adminPanel('new-post');clearEditor()">+ New Post</button>
+          <button class="btn btn-outline" onclick="adminPanel('all-posts')">View All Posts</button>
+        </div>
+        <div style="background:var(--brown-mid);border:1px solid rgba(255,45,155,0.2);padding:2rem">
+          <h3 style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--pink);margin-bottom:1.25rem">Recent Posts</h3>
+          <table class="posts-table"><tbody id="overview-recent-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- New/Edit Post -->
+      <div class="admin-panel" id="panel-new-post">
+        <div class="admin-header"><h2 id="editor-panel-title">New Post</h2><p>Write, format, and publish your article.</p></div>
+        <div class="editor-grid">
+          <div>
+            <div class="form-group"><label>Article Title</label><input type="text" id="ed-title" placeholder="e.g. Let's Talk Subsidies"></div>
+            <div class="form-group"><label>Excerpt / Teaser</label><input type="text" id="ed-excerpt" placeholder="One sentence that hooks the reader"></div>
+            <div class="form-group">
+              <label>Article Body</label>
+              <div class="rich-toolbar">
+                <button onclick="fmt('bold')"><b>B</b></button>
+                <button onclick="fmt('italic')"><i>I</i></button>
+                <button onclick="fmt('underline')"><u>U</u></button>
+                <button onclick="fmtBlock('h2')">H2</button>
+                <button onclick="fmtBlock('h3')">H3</button>
+                <button onclick="fmt('insertUnorderedList')">• List</button>
+                <button onclick="fmt('insertOrderedList')">1. List</button>
+                <button onclick="fmtBlock('blockquote')">" Quote</button>
+                <button onclick="insertLink()">🔗 Link</button>
+                <button onclick="fmt('removeFormat')">✕ Clear</button>
+              </div>
+              <div class="rich-editor" id="ed-body" contenteditable="true" placeholder="Start writing your article..."></div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-box">
+              <h3>Publish</h3>
+              <div class="form-group"><label>Status</label><select id="ed-status"><option value="published">Published</option><option value="draft">Draft</option></select></div>
+              <div style="display:flex;flex-direction:column;gap:0.5rem">
+                <button class="btn btn-pink" style="width:100%;justify-content:center" onclick="savePost()">Save Post ✓</button>
+                <button class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.58rem" onclick="clearEditor()">New / Clear</button>
+              </div>
+            </div>
+            <div class="panel-box">
+              <h3>Category</h3>
+              <div class="form-group" style="margin-bottom:0"><select id="ed-cat"><option>Farming & the Land</option><option>Ag Politics & Policy</option><option>Animals Are Agriculture</option><option>Food Systems</option><option>Hot Takes</option></select></div>
+            </div>
+            <div class="panel-box">
+              <h3>Cover Color</h3>
+              <p style="font-size:0.78rem;color:rgba(255,179,221,0.5);margin-bottom:0.75rem;font-weight:300">Pick the thumbnail color for this post.</p>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px" id="color-picker-grid">
+                <div class="color-swatch" data-color="#FF2D9B" style="background:#FF2D9B;border:2px solid white"></div>
+                <div class="color-swatch" data-color="#2E1A14" style="background:#2E1A14;border:2px solid transparent"></div>
+                <div class="color-swatch" data-color="#4A2A1F" style="background:#4A2A1F;border:2px solid transparent"></div>
+                <div class="color-swatch" data-color="#FDDAED" style="background:#FDDAED;border:2px solid transparent"></div>
+                <div class="color-swatch" data-color="#7A4A35" style="background:#7A4A35;border:2px solid transparent"></div>
+                <div class="color-swatch" data-color="#FFB3DD" style="background:#FFB3DD;border:2px solid transparent"></div>
+              </div>
+              <input type="hidden" id="ed-color" value="#FF2D9B">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All Posts -->
+      <div class="admin-panel" id="panel-all-posts">
+        <div class="admin-header"><h2>All Posts</h2><p>Manage, edit or delete your articles.</p></div>
+        <div style="margin-bottom:1.5rem"><button class="btn btn-pink" onclick="adminPanel('new-post');clearEditor()">+ New Post</button></div>
+        <table class="posts-table" id="all-posts-table">
+          <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="all-posts-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Export/Import -->
+      <div class="admin-panel" id="panel-data">
+        <div class="admin-header"><h2>Export / Import</h2><p>Back up your posts or restore them on a new device.</p></div>
+        <div class="io-grid">
+          <div class="io-box"><h3>Export Posts</h3><p>Download all your posts as a JSON backup file. Use this to save your work or move to a new browser/device.</p><button class="btn btn-pink" onclick="exportPosts()">Download Backup →</button></div>
+          <div class="io-box"><h3>Import Posts</h3><p>Restore posts from a JSON backup. This merges with existing posts — no data is lost.</p><input type="file" id="import-file" accept=".json" style="display:none" onchange="importPosts(this)"><button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Choose File →</button></div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="admin-header"><h2>Settings</h2><p>Update your admin password.</p></div>
+        <div style="max-width:480px">
+          <div class="panel-box">
+            <h3>Change Password</h3>
+            <div class="form-group"><label>Current Password</label><input type="password" id="s-cur-pw"></div>
+            <div class="form-group"><label>New Password</label><input type="password" id="s-new-pw"></div>
+            <div class="form-group"><label>Confirm New Password</label><input type="password" id="s-conf-pw"></div>
+            <div class="field-error" id="pw-change-error" style="margin-bottom:1rem"></div>
+            <button class="btn btn-pink" onclick="changePassword()">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="success-toast" id="toast"></div>
+
+<script>
+const POSTS_KEY='dirttalk_posts', PW_KEY='dirttalk_pw';
+let editingId=null;
+
+function getPosts(){try{return JSON.parse(localStorage.getItem(POSTS_KEY))||[]}catch(e){return[]}}
+function savePosts(a){localStorage.setItem(POSTS_KEY,JSON.stringify(a))}
+function getPassword(){return localStorage.getItem(PW_KEY)||'dirttalk2026'}
+function genId(){return'post_'+Date.now()+'_'+Math.random().toString(36).slice(2,7)}
+function stripHTML(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||''}
+function readTime(h){return Math.max(1,Math.round(stripHTML(h).split(/\s+/).length/200))}
+function fmtDate(ts){return new Date(ts).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}
+
+// ── ROUTING ──
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='home')renderHome();
+  if(id==='blog')renderBlog('All');
+  if(id==='admin')renderOverview();
+}
+function goAbout(){showPage('home');setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),80)}
+function goNewsletter(){showPage('home');setTimeout(()=>document.getElementById('newsletter').scrollIntoView({behavior:'smooth'}),80)}
+function filterAndGo(cat){showPage('blog');setTimeout(()=>renderBlog(cat),60)}
+
+// ── MARQUEE ──
+const mItems=['Farming','Ag Politics','Hot Takes','Animals Are Agriculture','Let\'s Talk Dirt','Soil Health','East Texas','Food Systems'];
+document.getElementById('home-marquee').innerHTML=[...mItems,...mItems].map(i=>`<span class="m-item">${i}</span><span class="m-sep">✦</span>`).join('');
+
+// ── THUMB ──
+function thumbHTML(post,big){
+  const light=['#FDDAED','#FFB3DD'];
+  const tc=light.includes(post.color)?'var(--brown)':'var(--white)';
+  const words=post.title.split(' ');let line='';const lines=[];
+  words.forEach(w=>{if((line+' '+w).trim().length>11){lines.push(line.trim());line=w}else line=(line+' '+w).trim()});
+  if(line)lines.push(line);
+  const label=lines.slice(0,3).join('<br>');
+  const sz=big?'4.5rem':'3rem';
+  return`<div class="post-thumb" style="background:${post.color}"><div class="post-thumb-label" style="color:${tc};font-size:${sz}">${label}</div></div>`;
+}
+
+function postCardHTML(post,featured){
+  return`<div class="post-card${featured?' featured':''}" onclick="openArticle('${post.id}')">
+    ${thumbHTML(post,featured)}
+    <div class="post-body">
+      <div class="post-cat">${post.category} · ${readTime(post.body)} min read</div>
+      <h3 class="post-title-el">${post.title}</h3>
+      <p class="post-blurb">${post.excerpt||stripHTML(post.body).slice(0,120)+'...'}</p>
+      <div class="post-foot">${fmtDate(post.date)}</div>
+    </div></div>`;
+}
+
+// ── HOME ──
+function renderHome(){
+  const posts=getPosts().filter(p=>p.status==='published').sort((a,b)=>b.date-a.date).slice(0,3);
+  const g=document.getElementById('home-posts-grid');
+  g.innerHTML=posts.length?posts.map((p,i)=>postCardHTML(p,i===0)).join(''):'<div class="empty-state"><p>No posts yet — head to the admin to write your first article.</p></div>';
+}
+
+// ── BLOG ──
+function renderBlog(filter){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.textContent===(filter==='All'?'All':filter)||b.textContent===filter));
+  const all=getPosts().filter(p=>p.status==='published').sort((a,b)=>b.date-a.date);
+  const posts=filter==='All'?all:all.filter(p=>p.category===filter);
+  const g=document.getElementById('blog-list-grid');
+  g.innerHTML=posts.length?posts.map((p,i)=>postCardHTML(p,i===0&&filter==='All')).join(''):`<div class="empty-state"><p>${filter==='All'?'No posts yet.':'No posts in this category yet.'}</p></div>`;
+}
+
+// ── ARTICLE ──
+function openArticle(id){
+  const p=getPosts().find(x=>x.id===id);if(!p)return;
+  document.getElementById('article-cat-el').textContent=p.category;
+  document.getElementById('article-title-el').textContent=p.title;
+  document.getElementById('article-meta-el').textContent=`${fmtDate(p.date)}  ·  ${readTime(p.body)} min read`;
+  const light=['#FDDAED','#FFB3DD'];
+  const tc=light.includes(p.color)?'var(--brown)':'var(--white)';
+  document.getElementById('article-banner').innerHTML=`<div style="position:absolute;inset:0;background:${p.color};display:flex;align-items:center;justify-content:center"><div class="article-banner-text" style="color:${tc}">${p.title}</div></div>`;
+  document.getElementById('article-body-el').innerHTML=p.body;
+  showPage('article');
+}
+
+// ── AUTH ──
+function doLogin(){
+  const pw=document.getElementById('login-pw').value;
+  if(pw===getPassword()){document.getElementById('login-pw').value='';document.getElementById('login-error').classList.remove('show');showPage('admin')}
+  else document.getElementById('login-error').classList.add('show');
+}
+function doLogout(){showPage('home')}
+function changePassword(){
+  const cur=document.getElementById('s-cur-pw').value,nw=document.getElementById('s-new-pw').value,cf=document.getElementById('s-conf-pw').value;
+  const err=document.getElementById('pw-change-error');err.classList.remove('show');
+  if(cur!==getPassword()){err.textContent='Current password is incorrect.';err.classList.add('show');return}
+  if(nw.length<6){err.textContent='New password must be at least 6 characters.';err.classList.add('show');return}
+  if(nw!==cf){err.textContent='Passwords do not match.';err.classList.add('show');return}
+  localStorage.setItem(PW_KEY,nw);
+  ['s-cur-pw','s-new-pw','s-conf-pw'].forEach(id=>document.getElementById(id).value='');
+  toast('Password updated!');
+}
+
+// ── ADMIN PANELS ──
+function adminPanel(id){
+  document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const map={overview:0,'new-post':1,'all-posts':2,data:3,settings:4};
+  const btns=document.querySelectorAll('.sidebar-btn');
+  if(btns[map[id]])btns[map[id]].classList.add('active');
+  if(id==='overview')renderOverview();
+  if(id==='all-posts')renderAllPosts();
+}
+
+function renderOverview(){
+  const posts=getPosts();
+  document.getElementById('stat-total').textContent=posts.length;
+  document.getElementById('stat-published').textContent=posts.filter(p=>p.status==='published').length;
+  document.getElementById('stat-drafts').textContent=posts.filter(p=>p.status==='draft').length;
+  const recent=posts.sort((a,b)=>b.date-a.date).slice(0,5);
+  document.getElementById('overview-recent-tbody').innerHTML=recent.length
+    ?recent.map(p=>`<tr><td class="td-title" style="cursor:pointer" onclick="editPost('${p.id}')">${p.title}</td><td><span class="td-cat">${p.category}</span></td><td><span class="td-status status-${p.status}">${p.status}</span></td></tr>`).join('')
+    :`<tr><td colspan="3" style="color:rgba(255,179,221,0.35);font-style:italic;padding:1rem 0">No posts yet.</td></tr>`;
+}
+
+function renderAllPosts(){
+  const posts=getPosts().sort((a,b)=>b.date-a.date);
+  document.getElementById('all-posts-tbody').innerHTML=posts.length
+    ?posts.map(p=>`<tr>
+        <td class="td-title">${p.title}</td>
+        <td><span class="td-cat">${p.category}</span></td>
+        <td><span class="td-status status-${p.status}">${p.status}</span></td>
+        <td class="td-date">${fmtDate(p.date)}</td>
+        <td><div class="td-actions">
+          <button class="action-btn action-edit" onclick="editPost('${p.id}')">Edit</button>
+          ${p.status==='published'?`<button class="action-btn action-view" onclick="openArticle('${p.id}')">View</button>`:''}
+          <button class="action-btn action-delete" onclick="deletePost('${p.id}')">Delete</button>
+        </div></td>
+      </tr>`).join('')
+    :`<tr><td colspan="5" style="color:rgba(255,179,221,0.35);font-style:italic;padding:1.5rem 0">No posts yet. Create your first one!</td></tr>`;
+}
+
+// ── EDITOR ──
+function clearEditor(){
+  editingId=null;
+  document.getElementById('editor-panel-title').textContent='New Post';
+  ['ed-title','ed-excerpt'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ed-body').innerHTML='';
+  document.getElementById('ed-status').value='published';
+  document.getElementById('ed-cat').value='Farming & the Land';
+  setColor('#FF2D9B');
+}
+function editPost(id){
+  const p=getPosts().find(x=>x.id===id);if(!p)return;
+  editingId=id;
+  document.getElementById('editor-panel-title').textContent='Edit Post';
+  document.getElementById('ed-title').value=p.title;
+  document.getElementById('ed-excerpt').value=p.excerpt||'';
+  document.getElementById('ed-body').innerHTML=p.body;
+  document.getElementById('ed-status').value=p.status;
+  document.getElementById('ed-cat').value=p.category;
+  setColor(p.color||'#FF2D9B');
+  adminPanel('new-post');
+}
+function savePost(){
+  const title=document.getElementById('ed-title').value.trim();
+  const body=document.getElementById('ed-body').innerHTML.trim();
+  if(!title){alert('Please add a title.');return}
+  if(!body||body==='<br>'){alert('Please write some content.');return}
+  const posts=getPosts();
+  const post={title,excerpt:document.getElementById('ed-excerpt').value.trim(),body,status:document.getElementById('ed-status').value,category:document.getElementById('ed-cat').value,color:document.getElementById('ed-color').value};
+  if(editingId){
+    const i=posts.findIndex(p=>p.id===editingId);
+    if(i>-1)posts[i]={...posts[i],...post,updated:Date.now()};
+  }else{
+    posts.unshift({id:genId(),...post,date:Date.now()});
+  }
+  savePosts(posts);
+  toast(editingId?'Post updated!':'Post published!');
+  editingId=null;clearEditor();adminPanel('all-posts');
+}
+function deletePost(id){
+  if(!confirm('Delete this post? This cannot be undone.'))return;
+  savePosts(getPosts().filter(p=>p.id!==id));
+  renderAllPosts();renderOverview();toast('Post deleted.');
+}
+function fmt(cmd){document.getElementById('ed-body').focus();document.execCommand(cmd,false,null)}
+function fmtBlock(tag){document.getElementById('ed-body').focus();document.execCommand('formatBlock',false,tag)}
+function insertLink(){const url=prompt('Enter URL:');if(url){document.getElementById('ed-body').focus();document.execCommand('createLink',false,url)}}
+
+// ── COLOR PICKER ──
+document.getElementById('color-picker-grid').addEventListener('click',e=>{
+  const sw=e.target.closest('.color-swatch');if(sw)setColor(sw.dataset.color);
+});
+function setColor(c){
+  document.getElementById('ed-color').value=c;
+  document.querySelectorAll('.color-swatch').forEach(sw=>{sw.style.border=sw.dataset.color===c?'2px solid white':'2px solid transparent'});
+}
+
+// ── EXPORT/IMPORT ──
+function exportPosts(){
+  const blob=new Blob([JSON.stringify(getPosts(),null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='dirttalk-backup.json';a.click();URL.revokeObjectURL(url);
+  toast('Backup downloaded!');
+}
+function importPosts(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const imported=JSON.parse(e.target.result);
+      if(!Array.isArray(imported))throw new Error();
+      const existing=getPosts(),ids=new Set(existing.map(p=>p.id));
+      savePosts([...existing,...imported.filter(p=>!ids.has(p.id))]);
+      toast(`Imported ${imported.length} posts!`);renderOverview();
+    }catch{alert('Invalid backup file.')}
+  };
+  reader.readAsText(file);input.value='';
+}
+
+// ── TOAST ──
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+renderHome();
+</script>
+</body>
+</html>
